@@ -148,8 +148,48 @@ javac Main.java Point.java
 java --enable-native-access=ALL-UNNAMED -Djava.library.path=. Main
 ```
 
+## Quick Start (Project Template)
+
+The `template/` directory provides a ready-made skeleton for new JNL-based projects. To start a new project:
+
+1. Copy the `template/` directory:
+   ```bash
+   cp -r template/ /path/to/my_project/
+   ```
+2. Rename `MyClass.cpp` and update the struct name and `JNL_EXPORT_CLASS()` call
+3. Set `JNL_ROOT` to point to your JavaNativeLink install, then run:
+   ```bash
+   ./build.sh          # Linux/macOS
+   build.bat            # Windows (MSYS2)
+   ```
+
+See `template/README.md` for full details.
+
+## Examples
+
+### Blackjack Card Game
+
+A complete Blackjack game demonstrating a Java Swing GUI frontend powered by a C++ game engine backend via JNL.
+
+- **C++ Backend** (`examples/cardgame/CardGame.cpp`): Implements deck management, shuffling, dealing, hand scoring with ace adjustment, hit/stand logic, and win/loss tracking.
+- **Java Frontend** (`examples/cardgame/CardGameUI.java`): A Swing application that renders card images, provides Hit/Stand/New Game buttons, and displays scores and game status — all by calling into the native `CardGame` class.
+
+To build and run:
+```bash
+# First build the core JNL library from the repo root:
+./build.sh              # or build.bat -UseMSYS2 on Windows
+
+# Then build the card game:
+cd examples/cardgame
+./build.sh              # or build.bat on Windows
+
+# Launch the game:
+java --enable-native-access=ALL-UNNAMED -Djava.library.path=.:../../build CardGameUI
+```
+
 ## Architecture Details
 
 - **TypeMapper (`Exporter.h`)**: A template trait that converts between Java FFM C-ABI types (`NativeType`) and native C++ types. Handles pointer indirection, unsigned-to-signed extensions, and `std::function` wrapping automatically.
 - **JavaGenerator (`JavaGenerator.h`)**: Uses C++26 reflection over `std::meta::members_of` to iterate over all exported constructors, methods, and public fields, and maps them to `MethodHandle` calls in the generated Java file.
 - **JNLClassRegistry**: A C-compatible struct that the `JNL_EXPORT_CLASS` macro uses to register method wrappers to a global registry, making them discoverable from Java at runtime without name-mangling complexities.
+

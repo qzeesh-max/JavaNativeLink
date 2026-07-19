@@ -45,4 +45,13 @@ javac Point.java Main.java
 # Run Java tests
 java --enable-native-access=ALL-UNNAMED -Djava.library.path=.:../../build Main
 
+cd ../..
+
+# Build Card Game example
+echo "Building Card Game Example..."
+cd examples/cardgame
+chmod +x build.sh
+./build.sh
+cd ../..
+
 echo "Success!"

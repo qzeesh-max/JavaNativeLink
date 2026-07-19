@@ -66,6 +66,12 @@ if "%UseMSYS2%"=="1" (
     if errorlevel 1 exit /b %errorlevel%
     
     cd ..\..
+
+    echo Building Card Game Example...
+    cd examples\cardgame
+    call build.bat
+    if errorlevel 1 exit /b %errorlevel%
+    cd ..\..
 )
 
 echo Success!
