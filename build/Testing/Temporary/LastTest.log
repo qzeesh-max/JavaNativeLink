@@ -1,0 +1,58 @@
+Start testing: Jul 19 14:24 Eastern Daylight Time
+----------------------------------------------------------
+1/3 Testing: core_test
+1/3 Test: core_test
+Command: "C:/Users/zeesh/sandbox/JavaNativeLink/build/test_core.exe"
+Directory: C:/Users/zeesh/sandbox/JavaNativeLink/build/tests
+"core_test" start time: Jul 19 14:24 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+JNL_EXPORT_CLASS constructor running for SimpleClass
+Registering class: 'SimpleClass'
+Running 2 test cases...
+Looking up registry for: 'SimpleClass', total registered: 1
+  Registered: 'SimpleClass'
+Looking up registry for: 'SimpleClass', total registered: 1
+  Registered: 'SimpleClass'
+
+*** No errors detected
+<end of output>
+Test time =   0.36 sec
+----------------------------------------------------------
+Test Passed.
+"core_test" end time: Jul 19 14:24 Eastern Daylight Time
+"core_test" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/3 Testing: inject_test
+2/3 Test: inject_test
+Command: "C:/Users/zeesh/sandbox/JavaNativeLink/build/test_inject.exe"
+Directory: C:/Users/zeesh/sandbox/JavaNativeLink/build/tests
+"inject_test" start time: Jul 19 14:24 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.22 sec
+----------------------------------------------------------
+Test Passed.
+"inject_test" end time: Jul 19 14:24 Eastern Daylight Time
+"inject_test" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/3 Testing: reflection_test
+3/3 Test: reflection_test
+Command: "C:/Users/zeesh/sandbox/JavaNativeLink/build/test_reflection.exe"
+Directory: C:/Users/zeesh/sandbox/JavaNativeLink/build/tests
+"reflection_test" start time: Jul 19 14:24 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+4 8 
+<end of output>
+Test time =   0.20 sec
+----------------------------------------------------------
+Test Passed.
+"reflection_test" end time: Jul 19 14:24 Eastern Daylight Time
+"reflection_test" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Jul 19 14:24 Eastern Daylight Time

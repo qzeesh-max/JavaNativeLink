@@ -6,6 +6,6 @@
 
 int main() {
     std::ofstream out("Point.java");
-    jnl::generate_java<Point>(out, "", "Point");
+    JNL::generate_java<Point>(out, "", "Point");
     return 0;
 }

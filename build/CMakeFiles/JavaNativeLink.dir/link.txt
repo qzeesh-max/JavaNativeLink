@@ -1,1 +1,0 @@
-g++-16  -arch arm64 -dynamiclib -Wl,-headerpad_max_install_names -o libJavaNativeLink.dylib -install_name @rpath/libJavaNativeLink.dylib CMakeFiles/JavaNativeLink.dir/src/Exporter.cpp.o

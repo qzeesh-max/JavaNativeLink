@@ -16,7 +16,7 @@ extern "C" {
     }
 }
 
-namespace jnl {
+namespace JNL {
     void set_error(const char* msg) {
         jnl_tls_error.has_error = true;
         std::strncpy(jnl_tls_error.message, msg, sizeof(jnl_tls_error.message) - 1);
@@ -36,7 +36,7 @@ namespace jnl {
 
 extern "C" {
     JNL_EXPORT const JNLClassRegistry* JNL_GetRegistry(const char* class_name) {
-        auto& reg = jnl::get_global_registry();
+        auto& reg = JNL::get_global_registry();
         std::cout << "Looking up registry for: '" << class_name << "', total registered: " << reg.size() << std::endl;
         for (const auto& pair : reg) {
             std::cout << "  Registered: '" << pair.first << "'" << std::endl;

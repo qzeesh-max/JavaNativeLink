@@ -14,7 +14,7 @@
 #include <functional>
 
 #ifdef _WIN32
-    #ifdef JNL_EXPORTS
+    #if defined(JNL_EXPORTS) || defined(JavaNativeLink_EXPORTS)
         #define JNL_EXPORT __declspec(dllexport)
     #else
         #define JNL_EXPORT __declspec(dllimport)
@@ -64,7 +64,7 @@ JNL_EXPORT void JNL_Free(void* ptr);
 
 } // extern "C"
 
-namespace jnl {
+namespace JNL {
 
 JNL_EXPORT void set_error(const char* msg);
 
@@ -468,11 +468,11 @@ struct ClassExporter {
     }
 };
 
-} // namespace jnl
+} // namespace JNL
 
 // Macro to export a class
 #define JNL_EXPORT_CLASS(ClassName) \
     __attribute__((constructor)) static void ClassName##_JNL_Exporter_Func() { \
         printf("JNL_EXPORT_CLASS constructor running for %s\n", #ClassName); \
-        jnl::register_class(jnl::ClassExporter<ClassName>::get(#ClassName)); \
+        JNL::register_class(JNL::ClassExporter<ClassName>::get(#ClassName)); \
     }

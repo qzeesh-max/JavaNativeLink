@@ -56,7 +56,7 @@ JNL_EXPORT_CLASS(Point);
 
 ### 2. Generate Java Bindings
 
-Write a simple C++ generator program that includes `JavaNativeLink/JavaGenerator.h` and calls `jnl::generate_java`. 
+Write a simple C++ generator program that includes `JavaNativeLink/JavaGenerator.h` and calls `JNL::generate_java`. 
 
 ```cpp
 // Generator.cpp
@@ -67,7 +67,7 @@ Write a simple C++ generator program that includes `JavaNativeLink/JavaGenerator
 int main() {
     std::ofstream out("Point.java");
     // Parameters: output stream, package name, native library name
-    jnl::generate_java<Point>(out, "", "Point");
+    JNL::generate_java<Point>(out, "", "Point");
     return 0;
 }
 ```

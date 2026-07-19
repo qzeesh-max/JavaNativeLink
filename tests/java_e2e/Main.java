@@ -1,7 +1,7 @@
 public class Main {
     public static void main(String[] args) {
         System.out.println("Java: Starting advanced test...");
-        try (Point p = new Point(100, 200)) {
+        try (Point p = new Point(100, 200, "TestPoint")) {
             p.print();
             
             // Test unsigned

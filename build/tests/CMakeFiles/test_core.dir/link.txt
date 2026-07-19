@@ -1,1 +1,0 @@
-g++-16  -arch arm64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/test_core.dir/test_core.cpp.o -o test_core  -Wl,-rpath,/Users/zeeshanqazi/Desktop/projects/JavaNativeLink/build ../libJavaNativeLink.dylib

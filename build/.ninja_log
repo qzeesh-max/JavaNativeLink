@@ -1,0 +1,10 @@
+# ninja log v7
+22	1140	8061886610471779	tests/CMakeFiles/test_inject.dir/test_inject.cpp.obj	8c636ce405d641ee
+31	1152	8061886610560683	tests/CMakeFiles/test_reflection.dir/test_reflection.cpp.obj	8761f01c0fc99ca2
+4	1259	8061886610307566	CMakeFiles/JavaNativeLink.dir/src/Exporter.cpp.obj	d9be82967345053
+1143	1681	8061886621712744	test_inject.exe	25022831f5f1ce18
+1153	1681	8061886621810479	test_reflection.exe	44e7429ced2ee2d2
+1259	1765	8061886627495045	JavaNativeLink.dll	f19b09c1cc512550
+1259	1765	8061886627495045	libJavaNativeLink.dll.a	f19b09c1cc512550
+14	8491	8061886610389927	tests/CMakeFiles/test_core.dir/test_core.cpp.obj	d914f03b8598d616
+8499	9202	8061886695274388	test_core.exe	555a2277dc3b260a

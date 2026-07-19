@@ -9,7 +9,7 @@
 #include <type_traits>
 #include "JavaNativeLink/Exporter.h"
 
-namespace jnl {
+namespace JNL {
 
 struct JavaTypeMapping {
     std::string_view java_type;
@@ -584,4 +584,4 @@ void generate_java(std::ostream& out, const std::string& package_name = "", cons
     out << "}\n";
 }
 
-} // namespace jnl
+} // namespace JNL

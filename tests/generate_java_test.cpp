@@ -12,6 +12,6 @@ struct Point {
 
 int main() {
     std::ofstream out("Point.java");
-    jnl::generate_java<Point>(out);
+    JNL::generate_java<Point>(out);
     return 0;
 }
