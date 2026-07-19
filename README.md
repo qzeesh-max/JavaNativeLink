@@ -17,9 +17,33 @@ JavaNativeLink automatically analyzes your C++ classes and generates the require
 
 ## Requirements
 
-- **C++ Compiler**: GCC 16 with `-std=c++26 -freflection`
+- **C++ Compiler**: GCC 16 with `-std=c++26 -freflection` (Note: MSVC currently lacks full C++26 reflection support for generating Java bindings, but can compile the core library).
 - **Java**: JDK 22 or newer (for FFM API)
 - **CMake**: 3.10+
+
+## Building
+
+We provide automated build scripts for Windows, Linux, and macOS. These scripts will configure CMake, build the core C++ library, compile the C++ generator, produce the Java bindings, and execute the end-to-end (E2E) tests.
+
+### Windows
+You can build using MSYS2 (recommended for full C++26 reflection support) or MSVC. Run the `build.bat` script from the repository root:
+
+*   **Using MSYS2 (Full Support)**:
+    ```cmd
+    .\build.bat -UseMSYS2
+    ```
+*   **Using MSVC (Partial Support)**:
+    ```cmd
+    .\build.bat -UseMSVC
+    ```
+    *Note: MSVC does not currently support the C++26 reflection features needed to run the Java E2E test generation step.*
+
+### Linux (WSL / Ubuntu) and macOS
+Run the provided shell script from the repository root:
+```bash
+./build.sh
+```
+Ensure that GCC 16 is installed and set as the default compiler (`g++-16` or `g++` depending on your environment), and that JDK 22 is correctly configured in your `JAVA_HOME`.
 
 ## Usage
 
