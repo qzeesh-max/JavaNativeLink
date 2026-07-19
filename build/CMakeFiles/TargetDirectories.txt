@@ -1,0 +1,8 @@
+/Users/zeeshanqazi/Desktop/projects/JavaNativeLink/build/CMakeFiles/JavaNativeLink.dir
+/Users/zeeshanqazi/Desktop/projects/JavaNativeLink/build/CMakeFiles/test.dir
+/Users/zeeshanqazi/Desktop/projects/JavaNativeLink/build/CMakeFiles/edit_cache.dir
+/Users/zeeshanqazi/Desktop/projects/JavaNativeLink/build/CMakeFiles/rebuild_cache.dir
+/Users/zeeshanqazi/Desktop/projects/JavaNativeLink/build/tests/CMakeFiles/test_core.dir
+/Users/zeeshanqazi/Desktop/projects/JavaNativeLink/build/tests/CMakeFiles/test.dir
+/Users/zeeshanqazi/Desktop/projects/JavaNativeLink/build/tests/CMakeFiles/edit_cache.dir
+/Users/zeeshanqazi/Desktop/projects/JavaNativeLink/build/tests/CMakeFiles/rebuild_cache.dir

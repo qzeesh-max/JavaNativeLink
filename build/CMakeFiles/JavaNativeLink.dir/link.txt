@@ -1,0 +1,2 @@
+/usr/bin/ar qc libJavaNativeLink.a CMakeFiles/JavaNativeLink.dir/src/Exporter.cpp.o
+/usr/bin/ranlib libJavaNativeLink.a

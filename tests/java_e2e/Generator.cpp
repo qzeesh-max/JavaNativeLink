@@ -1,0 +1,11 @@
+#include <fstream>
+#include "JavaNativeLink/JavaGenerator.h"
+
+// Note: Point.cpp defines the class. We can just `#include "Point.cpp"` for the generator, or declare it.
+#include "Point.cpp"
+
+int main() {
+    std::ofstream out("Point.java");
+    jnl::generate_java<Point>(out, "", "JavaNativeLinkTest");
+    return 0;
+}

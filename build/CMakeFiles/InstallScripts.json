@@ -1,0 +1,8 @@
+{
+	"InstallScripts" : 
+	[
+		"/Users/zeeshanqazi/Desktop/projects/JavaNativeLink/build/cmake_install.cmake",
+		"/Users/zeeshanqazi/Desktop/projects/JavaNativeLink/build/tests/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
