@@ -6,11 +6,11 @@
 extern "C" {
     thread_local JNLThreadError jnl_tls_error = {false, ""};
 
-    JNLThreadError* JNL_GetLastError() {
+    JNL_EXPORT void* JNL_GetLastError() {
         return &jnl_tls_error;
     }
 
-    void JNL_ClearLastError() {
+    JNL_EXPORT void JNL_ClearLastError() {
         jnl_tls_error.has_error = false;
         jnl_tls_error.message[0] = '\0';
     }
@@ -29,17 +29,26 @@ namespace jnl {
     }
 
     void register_class(const JNLClassRegistry& reg) {
+        std::cout << "Registering class: '" << reg.class_name << "'" << std::endl;
         get_global_registry()[reg.class_name] = reg;
     }
 }
 
 extern "C" {
-    const JNLClassRegistry* JNL_GetRegistry(const char* class_name) {
+    JNL_EXPORT const JNLClassRegistry* JNL_GetRegistry(const char* class_name) {
         auto& reg = jnl::get_global_registry();
+        std::cout << "Looking up registry for: '" << class_name << "', total registered: " << reg.size() << std::endl;
+        for (const auto& pair : reg) {
+            std::cout << "  Registered: '" << pair.first << "'" << std::endl;
+        }
         auto it = reg.find(class_name);
         if (it != reg.end()) {
             return &it->second;
         }
         return nullptr;
+    }
+
+    JNL_EXPORT void JNL_Free(void* ptr) {
+        free(ptr);
     }
 }

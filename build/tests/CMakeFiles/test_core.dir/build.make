@@ -95,7 +95,7 @@ test_core_EXTERNAL_OBJECTS =
 
 tests/test_core: tests/CMakeFiles/test_core.dir/test_core.cpp.o
 tests/test_core: tests/CMakeFiles/test_core.dir/build.make
-tests/test_core: libJavaNativeLink.a
+tests/test_core: libJavaNativeLink.dylib
 tests/test_core: tests/CMakeFiles/test_core.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/zeeshanqazi/Desktop/projects/JavaNativeLink/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable test_core"
 	cd /Users/zeeshanqazi/Desktop/projects/JavaNativeLink/build/tests && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/test_core.dir/link.txt --verbose=$(VERBOSE)

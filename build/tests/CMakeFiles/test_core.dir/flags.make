@@ -4,7 +4,7 @@
 # compile CXX with g++-16
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/Users/zeeshanqazi/Desktop/projects/JavaNativeLink/include
+CXX_INCLUDES = -I/opt/homebrew/include -I/Users/zeeshanqazi/Desktop/projects/JavaNativeLink/include
 
 CXX_FLAGSarm64 = -std=c++26 -arch arm64 -freflection
 

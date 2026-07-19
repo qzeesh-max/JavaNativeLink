@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/JavaNativeLink.dir/src/Exporter.cpp.o"
   "CMakeFiles/JavaNativeLink.dir/src/Exporter.cpp.o.d"
-  "libJavaNativeLink.a"
+  "libJavaNativeLink.dylib"
   "libJavaNativeLink.pdb"
 )
 

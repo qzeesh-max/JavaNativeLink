@@ -8,6 +8,20 @@
 #include <type_traits>
 #include <unordered_map>
 #include <utility>
+#include <cstring>
+#include <cstdlib>
+#include <string>
+#include <functional>
+
+#ifdef _WIN32
+    #ifdef JNL_EXPORTS
+        #define JNL_EXPORT __declspec(dllexport)
+    #else
+        #define JNL_EXPORT __declspec(dllimport)
+    #endif
+#else
+    #define JNL_EXPORT __attribute__((visibility("default")))
+#endif
 
 extern "C" {
 
@@ -43,32 +57,132 @@ struct JNLClassRegistry {
 };
 
 // Global registration function that FFM can call
-const JNLClassRegistry* JNL_GetRegistry(const char* class_name);
+JNL_EXPORT const JNLClassRegistry* JNL_GetRegistry(const char* class_name);
+JNL_EXPORT void* JNL_GetLastError();
+JNL_EXPORT void JNL_ClearLastError();
+JNL_EXPORT void JNL_Free(void* ptr);
 
 } // extern "C"
 
 namespace jnl {
 
-void set_error(const char* msg);
+JNL_EXPORT void set_error(const char* msg);
 
 // Registration function used by the macro
-void register_class(const JNLClassRegistry& reg);
+JNL_EXPORT void register_class(const JNLClassRegistry& reg);
 
 // --- Core Reflection Wrappers ---
+
+// TypeMapper maps C++ types to ABI-safe C types for FFM
+template <typename T, typename Enable = void>
+struct TypeMapper {
+    // Default for by-value objects (pointers passed from Java)
+    using NativeType = void*;
+    static T to_cpp(NativeType val) {
+        return *static_cast<T*>(val);
+    }
+    static NativeType to_native(T val) {
+        return new T(std::move(val));
+    }
+};
+
+template <typename T>
+struct TypeMapper<T, std::enable_if_t<std::is_arithmetic_v<T>>> {
+    using NativeType = T;
+    static T to_cpp(NativeType val) { return val; }
+    static NativeType to_native(T val) { return val; }
+};
+
+template <>
+struct TypeMapper<std::string> {
+    using NativeType = const char*;
+    static std::string to_cpp(NativeType val) {
+        return val ? std::string(val) : std::string();
+    }
+    // We cannot safely return dynamically allocated C strings without a free mechanism,
+    // but for now we strdup. The Java side is expected to free it or we use arenas.
+    // For now we just strdup it to avoid lifetime issues (a leak if not freed by caller).
+    static NativeType to_native(const std::string& val) {
+        char* cstr = (char*)malloc(val.size() + 1);
+        std::strcpy(cstr, val.c_str());
+        return cstr;
+    }
+};
+
+template <typename T>
+struct TypeMapper<T&> {
+    using NativeType = T*;
+    static T& to_cpp(NativeType val) { return *val; }
+    static NativeType to_native(T& val) { return &val; }
+};
+
+template <typename T>
+struct TypeMapper<const T&> {
+    using NativeType = const T*;
+    static const T& to_cpp(NativeType val) { return *val; }
+    static NativeType to_native(const T& val) { return &val; }
+};
+
+template <typename T>
+struct TypeMapper<T*> {
+    using NativeType = T*;
+    static T* to_cpp(NativeType val) { return val; }
+    static NativeType to_native(T* val) { return val; }
+};
+
+template <typename T>
+struct TypeMapper<const T*> {
+    using NativeType = const T*;
+    static const T* to_cpp(NativeType val) { return val; }
+    static NativeType to_native(const T* val) { return val; }
+};
+
+template <>
+struct TypeMapper<void> {
+    using NativeType = void;
+};
+
+template <typename Ret, typename... Args>
+struct TypeMapper<std::function<Ret(Args...)>> {
+    using NativeType = void*; // Function pointer
+    using CFuncType = typename TypeMapper<Ret>::NativeType (*)(typename TypeMapper<Args>::NativeType...);
+    
+    static std::function<Ret(Args...)> to_cpp(NativeType val) {
+        if (!val) return nullptr;
+        CFuncType c_func = reinterpret_cast<CFuncType>(val);
+        return [c_func](Args... args) -> Ret {
+            if constexpr (std::is_void_v<Ret>) {
+                c_func(TypeMapper<Args>::to_native(args)...);
+            } else {
+                return TypeMapper<Ret>::to_cpp(c_func(TypeMapper<Args>::to_native(args)...));
+            }
+        };
+    }
+    
+    static NativeType to_native(const std::function<Ret(Args...)>& val) {
+        // Passing std::function from C++ to Java is not supported dynamically without libffi closures.
+        return nullptr;
+    }
+};
+
 
 // Non-const member function wrapper
 template<typename Class, typename Ret, typename... Args>
 struct MethodWrapper {
     template<auto MemPtr>
-    static Ret wrapper(void* obj, Args... args) {
+    static typename TypeMapper<Ret>::NativeType wrapper(void* obj, typename TypeMapper<Args>::NativeType... args) {
         try {
-            return (static_cast<Class*>(obj)->*MemPtr)(args...);
+            if constexpr (std::is_void_v<Ret>) {
+                (static_cast<Class*>(obj)->*MemPtr)(TypeMapper<Args>::to_cpp(args)...);
+            } else {
+                return TypeMapper<Ret>::to_native((static_cast<Class*>(obj)->*MemPtr)(TypeMapper<Args>::to_cpp(args)...));
+            }
         } catch (const std::exception& e) {
             set_error(e.what());
-            if constexpr (!std::is_void_v<Ret>) return Ret{};
+            if constexpr (!std::is_void_v<Ret>) return typename TypeMapper<Ret>::NativeType{};
         } catch (...) {
             set_error("Unknown C++ exception");
-            if constexpr (!std::is_void_v<Ret>) return Ret{};
+            if constexpr (!std::is_void_v<Ret>) return typename TypeMapper<Ret>::NativeType{};
         }
     }
 };
@@ -77,15 +191,19 @@ struct MethodWrapper {
 template<typename Class, typename Ret, typename... Args>
 struct ConstMethodWrapper {
     template<auto MemPtr>
-    static Ret wrapper(void* obj, Args... args) {
+    static typename TypeMapper<Ret>::NativeType wrapper(void* obj, typename TypeMapper<Args>::NativeType... args) {
         try {
-            return (static_cast<const Class*>(obj)->*MemPtr)(args...);
+            if constexpr (std::is_void_v<Ret>) {
+                (static_cast<const Class*>(obj)->*MemPtr)(TypeMapper<Args>::to_cpp(args)...);
+            } else {
+                return TypeMapper<Ret>::to_native((static_cast<const Class*>(obj)->*MemPtr)(TypeMapper<Args>::to_cpp(args)...));
+            }
         } catch (const std::exception& e) {
             set_error(e.what());
-            if constexpr (!std::is_void_v<Ret>) return Ret{};
+            if constexpr (!std::is_void_v<Ret>) return typename TypeMapper<Ret>::NativeType{};
         } catch (...) {
             set_error("Unknown C++ exception");
-            if constexpr (!std::is_void_v<Ret>) return Ret{};
+            if constexpr (!std::is_void_v<Ret>) return typename TypeMapper<Ret>::NativeType{};
         }
     }
 };
@@ -199,9 +317,9 @@ consteval std::array<std::meta::info, N> get_params_of(std::meta::info mem) {
 
 template<typename Class, typename... Args>
 struct ConstructorWrapper {
-    static void* wrapper(Args... args) {
+    static void* wrapper(typename TypeMapper<Args>::NativeType... args) {
         try {
-            return new Class(args...);
+            return new Class(TypeMapper<Args>::to_cpp(args)...);
         } catch (const std::exception& e) {
             set_error(e.what());
             return nullptr;
@@ -252,17 +370,17 @@ void destroy_wrapper(void* obj) {
 template<typename Class, std::meta::info Field>
 struct FieldGetter {
     using FieldType = typename [: std::meta::type_of(Field) :];
-    static FieldType wrapper(void* obj) {
-        try { return static_cast<Class*>(obj)->[: Field :]; }
-        catch (...) { return FieldType{}; }
+    static typename TypeMapper<FieldType>::NativeType wrapper(void* obj) {
+        try { return TypeMapper<FieldType>::to_native(static_cast<Class*>(obj)->[: Field :]); }
+        catch (...) { return typename TypeMapper<FieldType>::NativeType{}; }
     }
 };
 
 template<typename Class, std::meta::info Field>
 struct FieldSetter {
     using FieldType = typename [: std::meta::type_of(Field) :];
-    static void wrapper(void* obj, FieldType val) {
-        try { static_cast<Class*>(obj)->[: Field :] = val; }
+    static void wrapper(void* obj, typename TypeMapper<FieldType>::NativeType val) {
+        try { static_cast<Class*>(obj)->[: Field :] = TypeMapper<FieldType>::to_cpp(val); }
         catch (...) { }
     }
 };
@@ -313,7 +431,7 @@ void fill_fields(JNLField* out) {
 // Main class exporter
 template<typename T>
 struct ClassExporter {
-    static const JNLClassRegistry& get() {
+    static const JNLClassRegistry& get(const char* explicit_name = nullptr) {
         constexpr auto cls = ^^T;
         
         constexpr size_t M = count_methods(cls);
@@ -337,7 +455,7 @@ struct ClassExporter {
         }
         
         static JNLClassRegistry reg {
-            .class_name = std::meta::identifier_of(cls).data(),
+            .class_name = explicit_name ? explicit_name : std::meta::identifier_of(cls).data(),
             .methods = method_array,
             .num_methods = M,
             .constructors = constructor_array,
@@ -354,9 +472,7 @@ struct ClassExporter {
 
 // Macro to export a class
 #define JNL_EXPORT_CLASS(ClassName) \
-    struct ClassName##_JNL_Exporter { \
-        ClassName##_JNL_Exporter() { \
-            jnl::register_class(jnl::ClassExporter<ClassName>::get()); \
-        } \
-    }; \
-    static ClassName##_JNL_Exporter ClassName##_jnl_exporter_inst;
+    __attribute__((constructor)) static void ClassName##_JNL_Exporter_Func() { \
+        printf("JNL_EXPORT_CLASS constructor running for %s\n", #ClassName); \
+        jnl::register_class(jnl::ClassExporter<ClassName>::get(#ClassName)); \
+    }

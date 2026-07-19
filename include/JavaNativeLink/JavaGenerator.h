@@ -19,7 +19,57 @@ struct JavaTypeMapping {
     std::string_view cast_from_ffm;
     bool is_array;
     std::string_view array_layout;
+    bool is_string = false;
+    bool is_object = false;
+    std::string_view object_class_name = "";
 };
+
+template<bool HasId, std::meta::info Info>
+struct IdGetter;
+
+template<std::meta::info Info>
+struct IdGetter<true, Info> {
+    static consteval std::string_view get() { return std::meta::identifier_of(Info); }
+};
+
+template<std::meta::info Info>
+struct IdGetter<false, Info> {
+    static consteval std::string_view get() { return ""; }
+};
+
+
+template<typename Base>
+consteval JavaTypeMapping map_type_actual() {
+    if constexpr (std::is_void_v<Base>) return {"void", "void", "", "", "", false, "", false, false, ""};
+    
+    if constexpr (std::is_same_v<Base, int>) return {"int", "int", "ValueLayout.JAVA_INT", "(int)", "(int)", false, "", false, false, ""};
+    if constexpr (std::is_same_v<Base, unsigned int>) return {"long", "int", "ValueLayout.JAVA_INT", "(int)", " & 0xFFFFFFFFL", false, "", false, false, ""};
+    
+    if constexpr (std::is_same_v<Base, short>) return {"short", "short", "ValueLayout.JAVA_SHORT", "(short)", "(short)", false, "", false, false, ""};
+    if constexpr (std::is_same_v<Base, unsigned short>) return {"int", "short", "ValueLayout.JAVA_SHORT", "(short)", " & 0xFFFF", false, "", false, false, ""};
+    
+    if constexpr (std::is_same_v<Base, char> || std::is_same_v<Base, signed char>) return {"byte", "byte", "ValueLayout.JAVA_BYTE", "(byte)", "(byte)", false, "", false, false, ""};
+    if constexpr (std::is_same_v<Base, unsigned char>) return {"short", "byte", "ValueLayout.JAVA_BYTE", "(byte)", " & 0xFF", false, "", false, false, ""};
+    
+    if constexpr (std::is_same_v<Base, long> || std::is_same_v<Base, long long>) return {"long", "long", "ValueLayout.JAVA_LONG", "(long)", "(long)", false, "", false, false, ""};
+    if constexpr (std::is_same_v<Base, unsigned long> || std::is_same_v<Base, unsigned long long>) return {"long", "long", "ValueLayout.JAVA_LONG", "(long)", "(long)", false, "", false, false, ""};
+    
+    if constexpr (std::is_same_v<Base, float>) return {"float", "float", "ValueLayout.JAVA_FLOAT", "(float)", "(float)", false, "", false, false, ""};
+    if constexpr (std::is_same_v<Base, double>) return {"double", "double", "ValueLayout.JAVA_DOUBLE", "(double)", "(double)", false, "", false, false, ""};
+    if constexpr (std::is_same_v<Base, bool>) return {"boolean", "boolean", "ValueLayout.JAVA_BOOLEAN", "(boolean)", "(boolean)", false, "", false, false, ""};
+    
+    if constexpr (std::is_same_v<Base, std::string>) return {"String", "MemorySegment", "ValueLayout.ADDRESS", "", "", false, "", true, false, ""};
+    
+    if constexpr (std::is_class_v<Base>) {
+        constexpr std::string_view id = IdGetter<std::meta::has_identifier(^^Base), ^^Base>::get();
+        if constexpr (!id.empty()) {
+            return {id.data(), "MemorySegment", "ValueLayout.ADDRESS", "", "", false, "", false, true, id.data()};
+        }
+        return {"MemorySegment", "MemorySegment", "ValueLayout.ADDRESS", "", "", false, "", false, false, ""};
+    }
+    
+    return {"MemorySegment", "MemorySegment", "ValueLayout.ADDRESS", "(MemorySegment)", "(MemorySegment)", false, "", false, false, ""};
+}
 
 template<typename T>
 consteval JavaTypeMapping map_type() {
@@ -43,27 +93,7 @@ consteval JavaTypeMapping map_type() {
         
         return {"MemorySegment", "MemorySegment", "ValueLayout.ADDRESS", "", "", false, ""};
     } else {
-        using Base = std::remove_cvref_t<T>;
-        
-        if constexpr (std::is_void_v<Base>) return {"void", "void", "", "", "", false, ""};
-        
-        if constexpr (std::is_same_v<Base, int>) return {"int", "int", "ValueLayout.JAVA_INT", "(int)", "(int)", false, ""};
-        if constexpr (std::is_same_v<Base, unsigned int>) return {"long", "int", "ValueLayout.JAVA_INT", "(int)", " & 0xFFFFFFFFL", false, ""};
-        
-        if constexpr (std::is_same_v<Base, short>) return {"short", "short", "ValueLayout.JAVA_SHORT", "(short)", "(short)", false, ""};
-        if constexpr (std::is_same_v<Base, unsigned short>) return {"int", "short", "ValueLayout.JAVA_SHORT", "(short)", " & 0xFFFF", false, ""};
-        
-        if constexpr (std::is_same_v<Base, char> || std::is_same_v<Base, signed char>) return {"byte", "byte", "ValueLayout.JAVA_BYTE", "(byte)", "(byte)", false, ""};
-        if constexpr (std::is_same_v<Base, unsigned char>) return {"short", "byte", "ValueLayout.JAVA_BYTE", "(byte)", " & 0xFF", false, ""};
-        
-        if constexpr (std::is_same_v<Base, long> || std::is_same_v<Base, long long>) return {"long", "long", "ValueLayout.JAVA_LONG", "(long)", "(long)", false, ""};
-        if constexpr (std::is_same_v<Base, unsigned long> || std::is_same_v<Base, unsigned long long>) return {"long", "long", "ValueLayout.JAVA_LONG", "(long)", "(long)", false, ""};
-        
-        if constexpr (std::is_same_v<Base, float>) return {"float", "float", "ValueLayout.JAVA_FLOAT", "(float)", "(float)", false, ""};
-        if constexpr (std::is_same_v<Base, double>) return {"double", "double", "ValueLayout.JAVA_DOUBLE", "(double)", "(double)", false, ""};
-        if constexpr (std::is_same_v<Base, bool>) return {"boolean", "boolean", "ValueLayout.JAVA_BOOLEAN", "(boolean)", "(boolean)", false, ""};
-        
-        return {"MemorySegment", "MemorySegment", "ValueLayout.ADDRESS", "(MemorySegment)", "(MemorySegment)", false, ""};
+        return map_type_actual<std::remove_cvref_t<T>>();
     }
 }
 
@@ -86,8 +116,9 @@ void fill_params(std::vector<JavaParamMeta>& out) {
         
         JavaParamMeta pm;
         pm.name = "arg" + std::to_string(J);
-        if constexpr (std::meta::has_identifier(param)) {
-            pm.name = std::meta::identifier_of(param).data();
+        constexpr std::string_view id = IdGetter<std::meta::has_identifier(param), param>::get();
+        if constexpr (!id.empty()) {
+            pm.name = id.data();
         }
         pm.type_map = map_type<typename [: ptype :]>();
         out.push_back(pm);
@@ -204,6 +235,7 @@ void generate_java(std::ostream& out, const std::string& package_name = "", cons
     out << "    private static final Linker LINKER = Linker.nativeLinker();\n";
     out << "    private static final SymbolLookup LOOKUP;\n";
     out << "    static {\n";
+    out << "        System.loadLibrary(\"JavaNativeLink\");\n";
     out << "        System.loadLibrary(\"" << library_name << "\");\n";
     out << "        LOOKUP = SymbolLookup.loaderLookup();\n";
     out << "    }\n\n";
@@ -226,9 +258,14 @@ void generate_java(std::ostream& out, const std::string& package_name = "", cons
     out << "    private static MethodHandle mh_dtor;\n";
     out << "    private static MethodHandle mh_getLastError;\n";
     out << "    private static MethodHandle mh_clearLastError;\n";
+    out << "    private static MethodHandle mh_JNL_Free;\n";
     
     out << "\n    static {\n";
     out << "        try {\n";
+    out << "            mh_JNL_Free = LINKER.downcallHandle(\n";
+    out << "                LOOKUP.find(\"JNL_Free\").orElseThrow(),\n";
+    out << "                FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)\n";
+    out << "            );\n";
     out << "            mh_getLastError = LINKER.downcallHandle(\n";
     out << "                LOOKUP.find(\"JNL_GetLastError\").orElseThrow(),\n";
     out << "                FunctionDescriptor.of(ValueLayout.ADDRESS)\n";
@@ -366,6 +403,8 @@ void generate_java(std::ostream& out, const std::string& package_name = "", cons
         for (size_t j = 0; j < m.params.size(); ++j) {
             if (m.params[j].type_map.is_array) {
                 out << "                MemorySegment _seg_" << m.params[j].name << " = _tempArena.allocateFrom(" << m.params[j].type_map.array_layout << ", " << m.params[j].name << ");\n";
+            } else if (m.params[j].type_map.is_string) {
+                out << "                MemorySegment _seg_" << m.params[j].name << " = _tempArena.allocateFrom(" << m.params[j].name << ");\n";
             }
         }
         
@@ -373,6 +412,10 @@ void generate_java(std::ostream& out, const std::string& package_name = "", cons
         for (size_t j = 0; j < m.params.size(); ++j) {
             if (m.params[j].type_map.is_array) {
                 out << "_seg_" << m.params[j].name;
+            } else if (m.params[j].type_map.is_string) {
+                out << "_seg_" << m.params[j].name;
+            } else if (m.params[j].type_map.is_object) {
+                out << m.params[j].name << ".getPointer()";
             } else {
                 out << m.params[j].type_map.cast_to_ffm << m.params[j].name;
             }
@@ -411,6 +454,8 @@ void generate_java(std::ostream& out, const std::string& package_name = "", cons
         for (size_t j = 0; j < m.params.size(); ++j) {
             if (m.params[j].type_map.is_array) {
                 out << "                MemorySegment _seg_" << m.params[j].name << " = _tempArena.allocateFrom(" << m.params[j].type_map.array_layout << ", " << m.params[j].name << ");\n";
+            } else if (m.params[j].type_map.is_string) {
+                out << "                MemorySegment _seg_" << m.params[j].name << " = _tempArena.allocateFrom(" << m.params[j].name << ");\n";
             }
         }
         
@@ -423,6 +468,10 @@ void generate_java(std::ostream& out, const std::string& package_name = "", cons
         for (const auto& p : m.params) {
             if (p.type_map.is_array) {
                 out << ", _seg_" << p.name;
+            } else if (p.type_map.is_string) {
+                out << ", _seg_" << p.name;
+            } else if (p.type_map.is_object) {
+                out << ", " << p.name << ".getPointer()";
             } else {
                 out << ", " << p.type_map.cast_to_ffm << p.name;
             }
@@ -438,7 +487,13 @@ void generate_java(std::ostream& out, const std::string& package_name = "", cons
         }
         
         if (m.return_type_map.java_type != "void") {
-            if (!m.return_type_map.cast_from_ffm.empty()) {
+            if (m.return_type_map.is_string) {
+                out << "                String _retStr = _res.reinterpret(Long.MAX_VALUE).getString(0);\n";
+                out << "                mh_JNL_Free.invokeExact(_res);\n";
+                out << "                return _retStr;\n";
+            } else if (m.return_type_map.is_object) {
+                out << "                return new " << m.return_type_map.object_class_name << "(_res, Arena.ofAuto());\n";
+            } else if (!m.return_type_map.cast_from_ffm.empty()) {
                 if (m.return_type_map.cast_from_ffm.find("&") != std::string_view::npos) {
                     // Suffix mask e.g. " & 0xFFFFFFFFL"
                     out << "                return (long)_res" << m.return_type_map.cast_from_ffm << ";\n";
@@ -470,7 +525,13 @@ void generate_java(std::ostream& out, const std::string& package_name = "", cons
         out << "            try (Arena _tempArena = Arena.ofConfined()) {\n";
         out << "                " << fmap.ffm_type << " _res = (" << fmap.ffm_type << ") mh_get_" << fname << ".invokeExact((MemorySegment)this.ptr);\n";
         out << "                checkError();\n";
-        if (!fmap.cast_from_ffm.empty()) {
+        if (fmap.is_string) {
+            out << "                String _retStr = _res.reinterpret(Long.MAX_VALUE).getString(0);\n";
+            out << "                mh_JNL_Free.invokeExact(_res);\n";
+            out << "                return _retStr;\n";
+        } else if (fmap.is_object) {
+            out << "                return new " << fmap.object_class_name << "(_res, Arena.ofAuto());\n";
+        } else if (!fmap.cast_from_ffm.empty()) {
             if (fmap.cast_from_ffm.find("&") != std::string_view::npos) {
                 out << "                return (long)_res" << fmap.cast_from_ffm << ";\n";
             } else if (fmap.cast_from_ffm == "(int)" && fmap.java_type == "int") {
@@ -492,7 +553,12 @@ void generate_java(std::ostream& out, const std::string& package_name = "", cons
         out << "        try {\n";
         out << "            if (mh_set_" << fname << " == null) throw new UnsupportedOperationException(\"Field is const\");\n";
         out << "            try (Arena _tempArena = Arena.ofConfined()) {\n";
-        if (fmap.is_array) {
+        if (fmap.is_string) {
+            out << "                MemorySegment _seg_val = _tempArena.allocateFrom(val);\n";
+            out << "                mh_set_" << fname << ".invokeExact((MemorySegment)this.ptr, _seg_val);\n";
+        } else if (fmap.is_object) {
+            out << "                mh_set_" << fname << ".invokeExact((MemorySegment)this.ptr, val.getPointer());\n";
+        } else if (fmap.is_array) {
             out << "                MemorySegment _seg_val = _tempArena.allocateFrom(" << fmap.array_layout << ", val);\n";
             out << "                mh_set_" << fname << ".invokeExact((MemorySegment)this.ptr, _seg_val);\n";
         } else {

@@ -17,7 +17,8 @@ public class Point implements AutoCloseable {
     private static final Linker LINKER = Linker.nativeLinker();
     private static final SymbolLookup LOOKUP;
     static {
-        System.loadLibrary("JavaNativeLinkTest");
+        System.loadLibrary("JavaNativeLink");
+        System.loadLibrary("Point");
         LOOKUP = SymbolLookup.loaderLookup();
     }
 
@@ -25,19 +26,28 @@ public class Point implements AutoCloseable {
     private static MethodHandle mh_init_1;
     private static MethodHandle mh_print_0;
     private static MethodHandle mh_add_1;
-    private static MethodHandle mh_multiplyUnsigned_2;
-    private static MethodHandle mh_incReference_3;
-    private static MethodHandle mh_crashMe_4;
+    private static MethodHandle mh_greet_2;
+    private static MethodHandle mh_multiplyUnsigned_3;
+    private static MethodHandle mh_incReference_4;
+    private static MethodHandle mh_crashMe_5;
+    private static MethodHandle mh_applyCallback_6;
     private static MethodHandle mh_get_x;
     private static MethodHandle mh_set_x;
     private static MethodHandle mh_get_y;
     private static MethodHandle mh_set_y;
+    private static MethodHandle mh_get_name;
+    private static MethodHandle mh_set_name;
     private static MethodHandle mh_dtor;
     private static MethodHandle mh_getLastError;
     private static MethodHandle mh_clearLastError;
+    private static MethodHandle mh_JNL_Free;
 
     static {
         try {
+            mh_JNL_Free = LINKER.downcallHandle(
+                LOOKUP.find("JNL_Free").orElseThrow(),
+                FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            );
             mh_getLastError = LINKER.downcallHandle(
                 LOOKUP.find("JNL_GetLastError").orElseThrow(),
                 FunctionDescriptor.of(ValueLayout.ADDRESS)
@@ -70,14 +80,20 @@ public class Point implements AutoCloseable {
                     if (name.equals("add") && mh_add_1 == null) {
                         mh_add_1 = LINKER.downcallHandle(funcPtr, FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT));
                     }
-                    if (name.equals("multiplyUnsigned") && mh_multiplyUnsigned_2 == null) {
-                        mh_multiplyUnsigned_2 = LINKER.downcallHandle(funcPtr, FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT));
+                    if (name.equals("greet") && mh_greet_2 == null) {
+                        mh_greet_2 = LINKER.downcallHandle(funcPtr, FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS));
                     }
-                    if (name.equals("incReference") && mh_incReference_3 == null) {
-                        mh_incReference_3 = LINKER.downcallHandle(funcPtr, FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+                    if (name.equals("multiplyUnsigned") && mh_multiplyUnsigned_3 == null) {
+                        mh_multiplyUnsigned_3 = LINKER.downcallHandle(funcPtr, FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT));
                     }
-                    if (name.equals("crashMe") && mh_crashMe_4 == null) {
-                        mh_crashMe_4 = LINKER.downcallHandle(funcPtr, FunctionDescriptor.ofVoid(ValueLayout.ADDRESS));
+                    if (name.equals("incReference") && mh_incReference_4 == null) {
+                        mh_incReference_4 = LINKER.downcallHandle(funcPtr, FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+                    }
+                    if (name.equals("crashMe") && mh_crashMe_5 == null) {
+                        mh_crashMe_5 = LINKER.downcallHandle(funcPtr, FunctionDescriptor.ofVoid(ValueLayout.ADDRESS));
+                    }
+                    if (name.equals("applyCallback") && mh_applyCallback_6 == null) {
+                        mh_applyCallback_6 = LINKER.downcallHandle(funcPtr, FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS));
                     }
                 }
 
@@ -91,7 +107,7 @@ public class Point implements AutoCloseable {
                         mh_init_0 = LINKER.downcallHandle(funcPtr, FunctionDescriptor.of(ValueLayout.ADDRESS));
                     }
                     if (i == 1) {
-                        mh_init_1 = LINKER.downcallHandle(funcPtr, FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT));
+                        mh_init_1 = LINKER.downcallHandle(funcPtr, FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS));
                     }
                 }
 
@@ -114,6 +130,12 @@ public class Point implements AutoCloseable {
                         mh_get_y = LINKER.downcallHandle(getPtr, FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS));
                         if (!setPtr.equals(MemorySegment.NULL)) {
                             mh_set_y = LINKER.downcallHandle(setPtr, FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT));
+                        }
+                    }
+                    if (name.equals("name") && mh_get_name == null) {
+                        mh_get_name = LINKER.downcallHandle(getPtr, FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+                        if (!setPtr.equals(MemorySegment.NULL)) {
+                            mh_set_name = LINKER.downcallHandle(setPtr, FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS));
                         }
                     }
                 }
@@ -155,10 +177,11 @@ public class Point implements AutoCloseable {
         }
     }
 
-    public Point(int x, int y) {
+    public Point(int x, int y, String name) {
         try {
             try (Arena _tempArena = Arena.ofConfined()) {
-                this.ptr = (MemorySegment) mh_init_1.invokeExact((int)x, (int)y);
+                MemorySegment _seg_name = _tempArena.allocateFrom(name);
+                this.ptr = (MemorySegment) mh_init_1.invokeExact((int)x, (int)y, _seg_name);
                 checkError();
                 this.arena = Arena.ofAuto();
             }
@@ -190,10 +213,24 @@ public class Point implements AutoCloseable {
         }
     }
 
+    public String greet(Point other) {
+        try {
+            try (Arena _tempArena = Arena.ofConfined()) {
+                MemorySegment _res = (MemorySegment) mh_greet_2.invokeExact((MemorySegment)this.ptr, other.getPointer());
+                checkError();
+                String _retStr = _res.reinterpret(Long.MAX_VALUE).getString(0);
+                mh_JNL_Free.invokeExact(_res);
+                return _retStr;
+            }
+        } catch (RuntimeException e) { throw e; } catch (Throwable e) {
+            throw new RuntimeException("Native call failed", e);
+        }
+    }
+
     public long multiplyUnsigned(long a, long b) {
         try {
             try (Arena _tempArena = Arena.ofConfined()) {
-                int _res = (int) mh_multiplyUnsigned_2.invokeExact((MemorySegment)this.ptr, (int)a, (int)b);
+                int _res = (int) mh_multiplyUnsigned_3.invokeExact((MemorySegment)this.ptr, (int)a, (int)b);
                 checkError();
                 return (long)_res & 0xFFFFFFFFL;
             }
@@ -206,7 +243,7 @@ public class Point implements AutoCloseable {
         try {
             try (Arena _tempArena = Arena.ofConfined()) {
                 MemorySegment _seg_val = _tempArena.allocateFrom(ValueLayout.JAVA_INT, val);
-                mh_incReference_3.invokeExact((MemorySegment)this.ptr, _seg_val);
+                mh_incReference_4.invokeExact((MemorySegment)this.ptr, _seg_val);
                 checkError();
                 MemorySegment.copy(_seg_val, ValueLayout.JAVA_INT, 0, val, 0, val.length);
             }
@@ -218,8 +255,20 @@ public class Point implements AutoCloseable {
     public void crashMe() {
         try {
             try (Arena _tempArena = Arena.ofConfined()) {
-                mh_crashMe_4.invokeExact((MemorySegment)this.ptr);
+                mh_crashMe_5.invokeExact((MemorySegment)this.ptr);
                 checkError();
+            }
+        } catch (RuntimeException e) { throw e; } catch (Throwable e) {
+            throw new RuntimeException("Native call failed", e);
+        }
+    }
+
+    public int applyCallback(int a, MemorySegment cb) {
+        try {
+            try (Arena _tempArena = Arena.ofConfined()) {
+                int _res = (int) mh_applyCallback_6.invokeExact((MemorySegment)this.ptr, (int)a, cb);
+                checkError();
+                return (int)_res;
             }
         } catch (RuntimeException e) { throw e; } catch (Throwable e) {
             throw new RuntimeException("Native call failed", e);
@@ -267,6 +316,33 @@ public class Point implements AutoCloseable {
             if (mh_set_y == null) throw new UnsupportedOperationException("Field is const");
             try (Arena _tempArena = Arena.ofConfined()) {
                 mh_set_y.invokeExact((MemorySegment)this.ptr, (int)val);
+                checkError();
+            }
+        } catch (RuntimeException e) { throw e; } catch (Throwable e) {
+            throw new RuntimeException("Native field set failed", e);
+        }
+    }
+
+    public String get_name() {
+        try {
+            try (Arena _tempArena = Arena.ofConfined()) {
+                MemorySegment _res = (MemorySegment) mh_get_name.invokeExact((MemorySegment)this.ptr);
+                checkError();
+                String _retStr = _res.reinterpret(Long.MAX_VALUE).getString(0);
+                mh_JNL_Free.invokeExact(_res);
+                return _retStr;
+            }
+        } catch (RuntimeException e) { throw e; } catch (Throwable e) {
+            throw new RuntimeException("Native field get failed", e);
+        }
+    }
+
+    public void set_name(String val) {
+        try {
+            if (mh_set_name == null) throw new UnsupportedOperationException("Field is const");
+            try (Arena _tempArena = Arena.ofConfined()) {
+                MemorySegment _seg_val = _tempArena.allocateFrom(val);
+                mh_set_name.invokeExact((MemorySegment)this.ptr, _seg_val);
                 checkError();
             }
         } catch (RuntimeException e) { throw e; } catch (Throwable e) {

@@ -16,6 +16,8 @@ CMakeFiles/JavaNativeLink.dir/src/Exporter.cpp.o: /Users/zeeshanqazi/Desktop/pro
   /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/_locale_posix2008.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/_printf.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/_stdlib.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/_string.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/_strings.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/_time.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/_types.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/_types/_intmax_t.h \
@@ -60,6 +62,7 @@ CMakeFiles/JavaNativeLink.dir/src/Exporter.cpp.o: /Users/zeeshanqazi/Desktop/pro
   /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/stdint.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/stdio.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/stdlib.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/string.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/sys/__endian.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/sys/_endian.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/sys/_posix_availability.h \
@@ -145,11 +148,13 @@ CMakeFiles/JavaNativeLink.dir/src/Exporter.cpp.o: /Users/zeeshanqazi/Desktop/pro
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/basic_ios.tcc \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/basic_string.h \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/basic_string.tcc \
+  /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/binders.h \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/char_traits.h \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/charconv.h \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/codecvt.h \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/concept_check.h \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/cpp_type_traits.h \
+  /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/cpyfunc_impl.h \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/cxxabi_forced.h \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/cxxabi_init_exception.h \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/enable_special_members.h \
@@ -158,8 +163,10 @@ CMakeFiles/JavaNativeLink.dir/src/Exporter.cpp.o: /Users/zeeshanqazi/Desktop/pro
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/exception_defines.h \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/exception_ptr.h \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/formatfwd.h \
+  /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/funcref_impl.h \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/functexcept.h \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/functional_hash.h \
+  /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/funcwrap.h \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/hash_bytes.h \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/hashtable.h \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/hashtable_policy.h \
@@ -179,6 +186,7 @@ CMakeFiles/JavaNativeLink.dir/src/Exporter.cpp.o: /Users/zeeshanqazi/Desktop/pro
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/max_size_type.h \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/memory_resource.h \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/memoryfwd.h \
+  /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/mofunc_impl.h \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/monostate.h \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/move.h \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/nested_exception.h \
@@ -198,8 +206,10 @@ CMakeFiles/JavaNativeLink.dir/src/Exporter.cpp.o: /Users/zeeshanqazi/Desktop/pro
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/ranges_base.h \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/ranges_cmp.h \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/ranges_util.h \
+  /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/refwrap.h \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/requires_hosted.h \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/std_abs.h \
+  /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/std_function.h \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/stdexcept_except.h \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/stdexcept_throw.h \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/stdexcept_throwdef.h \
@@ -242,6 +252,7 @@ CMakeFiles/JavaNativeLink.dir/src/Exporter.cpp.o: /Users/zeeshanqazi/Desktop/pro
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/cstdint \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/cstdio \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/cstdlib \
+  /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/cstring \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/ctime \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/cwchar \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/cwctype \
@@ -255,6 +266,7 @@ CMakeFiles/JavaNativeLink.dir/src/Exporter.cpp.o: /Users/zeeshanqazi/Desktop/pro
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/ext/string_conversions.h \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/ext/type_traits.h \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/format \
+  /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/functional \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/initializer_list \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/ios \
   /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/iosfwd \
@@ -336,8 +348,6 @@ CMakeFiles/JavaNativeLink.dir/src/Exporter.cpp.o: /Users/zeeshanqazi/Desktop/pro
 
 /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/cstdio:
 
-/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/cstddef:
-
 /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/concepts:
 
 /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/compare:
@@ -398,17 +408,19 @@ CMakeFiles/JavaNativeLink.dir/src/Exporter.cpp.o: /Users/zeeshanqazi/Desktop/pro
 
 /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/stdexcept_except.h:
 
+/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/std_function.h:
+
 /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/std_abs.h:
 
 /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/ranges_util.h:
 
+/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/ranges_cmp.h:
+
 /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/ranges_base.h:
 
-/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/monostate.h:
+/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/range_access.h:
 
-/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/predefined_ops.h:
-
-/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/ostream.tcc:
+/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/ptr_traits.h:
 
 /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/ostream.h:
 
@@ -417,6 +429,8 @@ CMakeFiles/JavaNativeLink.dir/src/Exporter.cpp.o: /Users/zeeshanqazi/Desktop/pro
 /opt/homebrew/Cellar/gcc/16.1.0/lib/gcc/current/gcc/aarch64-apple-darwin25/16/include-fixed/_stdio.h:
 
 /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/nested_exception.h:
+
+/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/mofunc_impl.h:
 
 /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/max_size_type.h:
 
@@ -442,15 +456,29 @@ CMakeFiles/JavaNativeLink.dir/src/Exporter.cpp.o: /Users/zeeshanqazi/Desktop/pro
 
 /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/hashtable_policy.h:
 
+/Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/string.h:
+
+/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/ostream.tcc:
+
+/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/cstddef:
+
+/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/funcref_impl.h:
+
 /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/exception_ptr.h:
 
 /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/exception.h:
+
+/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/cstring:
+
+/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/cpyfunc_impl.h:
 
 /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/charconv.h:
 
 /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/requires_hosted.h:
 
 /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/char_traits.h:
+
+/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/binders.h:
 
 /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/aarch64-apple-darwin25/bits/gthr.h:
 
@@ -467,6 +495,8 @@ CMakeFiles/JavaNativeLink.dir/src/Exporter.cpp.o: /Users/zeeshanqazi/Desktop/pro
 /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/allocator.h:
 
 /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/alloc_traits.h:
+
+/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/funcwrap.h:
 
 /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/algorithmfwd.h:
 
@@ -493,10 +523,6 @@ CMakeFiles/JavaNativeLink.dir/src/Exporter.cpp.o: /Users/zeeshanqazi/Desktop/pro
 /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/stl_algo.h:
 
 /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/aarch64-apple-darwin25/bits/gthr-default.h:
-
-/Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/sys/_types/_int32_t.h:
-
-/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/postypes.h:
 
 /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/string_view:
 
@@ -586,6 +612,18 @@ CMakeFiles/JavaNativeLink.dir/src/Exporter.cpp.o: /Users/zeeshanqazi/Desktop/pro
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/sys/_types/_timespec.h:
 
+/Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/libkern/_OSByteOrder.h:
+
+/Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/sys/_types/_time_t.h:
+
+/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/ostream_print.h:
+
+/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/string:
+
+/Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/sys/_types/_rune_t.h:
+
+/Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/sys/_types/_size_t.h:
+
 /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/sys/_types/_sigset_t.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/sys/_types/_mach_port_t.h:
@@ -601,6 +639,10 @@ CMakeFiles/JavaNativeLink.dir/src/Exporter.cpp.o: /Users/zeeshanqazi/Desktop/pro
 /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/sys/_types/_int8_t.h:
 
 /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/move.h:
+
+/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/postypes.h:
+
+/Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/sys/_types/_int32_t.h:
 
 /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/new_allocator.h:
 
@@ -621,8 +663,6 @@ CMakeFiles/JavaNativeLink.dir/src/Exporter.cpp.o: /Users/zeeshanqazi/Desktop/pro
 /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/sys/_types/_mbstate_t.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/sys/_types.h:
-
-/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/ptr_traits.h:
 
 /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/localefwd.h:
 
@@ -658,14 +698,6 @@ CMakeFiles/JavaNativeLink.dir/src/Exporter.cpp.o: /Users/zeeshanqazi/Desktop/pro
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/sys/_pthread/_pthread_attr_t.h:
 
-/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/ostream_print.h:
-
-/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/string:
-
-/Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/sys/_types/_rune_t.h:
-
-/Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/sys/_types/_size_t.h:
-
 /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/sys/_pthread/_pthread_key_t.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/sys/_posix_availability.h:
@@ -687,8 +719,6 @@ CMakeFiles/JavaNativeLink.dir/src/Exporter.cpp.o: /Users/zeeshanqazi/Desktop/pro
 /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/stdio.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/stdint.h:
-
-/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/range_access.h:
 
 /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/type_traits:
 
@@ -756,27 +786,27 @@ CMakeFiles/JavaNativeLink.dir/src/Exporter.cpp.o: /Users/zeeshanqazi/Desktop/pro
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/_types/_wctrans_t.h:
 
+/Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/alloca.h:
+
+/Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/_strings.h:
+
+/Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/_types/_uint64_t.h:
+
 /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/AvailabilityVersions.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/_time.h:
 
-/Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/_types/_uint64_t.h:
-
 /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/sys/_pthread/_pthread_types.h:
 
+/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/formatfwd.h:
+
+/Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/___wctype.h:
+
+/Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/_string.h:
+
+/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/functional:
+
 /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/machine/_types.h:
-
-/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/system_error:
-
-/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/stl_iterator.h:
-
-/Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/AvailabilityInternal.h:
-
-/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/locale_conv.h:
-
-/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/hash_bytes.h:
-
-/Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/machine/endian.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/arm/_mcontext.h:
 
@@ -792,11 +822,9 @@ CMakeFiles/JavaNativeLink.dir/src/Exporter.cpp.o: /Users/zeeshanqazi/Desktop/pro
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/sys/_types/_sigaltstack.h:
 
-/Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/sys/_types/_time_t.h:
-
-/Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/libkern/_OSByteOrder.h:
-
 /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/_locale.h:
+
+/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/refwrap.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/sys/_types/_wint_t.h:
 
@@ -826,6 +854,10 @@ CMakeFiles/JavaNativeLink.dir/src/Exporter.cpp.o: /Users/zeeshanqazi/Desktop/pro
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/sys/_types/_uid_t.h:
 
+/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/predefined_ops.h:
+
+/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/monostate.h:
+
 /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/uses_allocator.h:
 
 /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/aarch64-apple-darwin25/bits/c++locale.h:
@@ -834,19 +866,23 @@ CMakeFiles/JavaNativeLink.dir/src/Exporter.cpp.o: /Users/zeeshanqazi/Desktop/pro
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/_ctype.h:
 
-/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/formatfwd.h:
-
-/Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/___wctype.h:
-
-/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/ranges_cmp.h:
-
 /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/sys/qos.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/_locale_posix2008.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/_types/_wctype_t.h:
 
-/Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/alloca.h:
+/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/locale_conv.h:
+
+/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/hash_bytes.h:
+
+/Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/machine/endian.h:
+
+/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/system_error:
+
+/opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/stl_iterator.h:
+
+/Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/AvailabilityInternal.h:
 
 /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/locale_facets_nonio.tcc:
 

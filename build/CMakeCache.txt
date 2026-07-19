@@ -14,6 +14,14 @@
 # EXTERNAL cache entries
 ########################
 
+//The directory containing a CMake configuration file for Boost.
+Boost_DIR:PATH=/opt/homebrew/lib/cmake/Boost-1.90.0
+
+//Path to a file.
+Boost_INCLUDE_DIR:PATH=/opt/homebrew/include
+
+Boost_UNIT_TEST_FRAMEWORK_LIBRARY_RELEASE:STRING=/opt/homebrew/lib/libboost_unit_test_framework.dylib
+
 //Path to a program.
 CMAKE_ADDR2LINE:FILEPATH=CMAKE_ADDR2LINE-NOTFOUND
 
@@ -210,11 +218,22 @@ JavaNativeLink_IS_TOP_LEVEL:STATIC=ON
 //Value Computed by CMake
 JavaNativeLink_SOURCE_DIR:STATIC=/Users/zeeshanqazi/Desktop/projects/JavaNativeLink
 
+//The directory containing a CMake configuration file for boost_exception.
+boost_exception_DIR:PATH=/opt/homebrew/lib/cmake/boost_exception-1.90.0
+
+//The directory containing a CMake configuration file for boost_headers.
+boost_headers_DIR:PATH=/opt/homebrew/lib/cmake/boost_headers-1.90.0
+
+//The directory containing a CMake configuration file for boost_unit_test_framework.
+boost_unit_test_framework_DIR:PATH=/opt/homebrew/lib/cmake/boost_unit_test_framework-1.90.0
+
 
 ########################
 # INTERNAL cache entries
 ########################
 
+//ADVANCED property for variable: Boost_DIR
+Boost_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_ADDR2LINE
 CMAKE_ADDR2LINE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_AR
@@ -344,4 +363,12 @@ CMAKE_TAPI-ADVANCED:INTERNAL=1
 CMAKE_UNAME:INTERNAL=/usr/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
+//Details about finding Boost
+FIND_PACKAGE_MESSAGE_DETAILS_Boost:INTERNAL=[/opt/homebrew/lib/cmake/Boost-1.90.0/BoostConfig.cmake][ ][v1.90.0()]
+//ADVANCED property for variable: boost_exception_DIR
+boost_exception_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: boost_headers_DIR
+boost_headers_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: boost_unit_test_framework_DIR
+boost_unit_test_framework_DIR-ADVANCED:INTERNAL=1
 

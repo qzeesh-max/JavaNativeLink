@@ -9,7 +9,7 @@ set(CMAKE_CXX_COMPILER "g++-16")
 add_compile_options(-freflection)
 
 # Core interface library
-add_library(JavaNativeLink STATIC src/Exporter.cpp)
+add_library(JavaNativeLink SHARED src/Exporter.cpp)
 target_include_directories(JavaNativeLink PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 enable_testing()

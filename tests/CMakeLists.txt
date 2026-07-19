@@ -1,3 +1,5 @@
+find_package(Boost REQUIRED)
 add_executable(test_core test_core.cpp)
+target_include_directories(test_core PRIVATE ${Boost_INCLUDE_DIRS})
 target_link_libraries(test_core PRIVATE JavaNativeLink)
 add_test(NAME core_test COMMAND test_core)

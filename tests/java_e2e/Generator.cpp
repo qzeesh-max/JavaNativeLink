@@ -6,6 +6,6 @@
 
 int main() {
     std::ofstream out("Point.java");
-    jnl::generate_java<Point>(out, "", "JavaNativeLinkTest");
+    jnl::generate_java<Point>(out, "", "Point");
     return 0;
 }

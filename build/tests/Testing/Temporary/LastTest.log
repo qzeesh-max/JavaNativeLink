@@ -1,0 +1,22 @@
+Start testing: Jul 19 13:09 EDT
+----------------------------------------------------------
+1/1 Testing: core_test
+1/1 Test: core_test
+Command: "/Users/zeeshanqazi/Desktop/projects/JavaNativeLink/build/tests/test_core"
+Directory: /Users/zeeshanqazi/Desktop/projects/JavaNativeLink/build/tests
+"core_test" start time: Jul 19 13:09 EDT
+Output:
+----------------------------------------------------------
+Running 2 test cases...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.41 sec
+----------------------------------------------------------
+Test Passed.
+"core_test" end time: Jul 19 13:09 EDT
+"core_test" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Jul 19 13:09 EDT

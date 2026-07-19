@@ -283,4 +283,16 @@ CMakeFiles/JavaNativeLink.dir/src/Exporter.cpp.o: \
  /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/node_handle.h \
  /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/utility \
  /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/stl_relops.h \
- /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/intcmp.h
+ /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/intcmp.h \
+ /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/cstring \
+ /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/string.h \
+ /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/_string.h \
+ /Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include/_strings.h \
+ /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/functional \
+ /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/refwrap.h \
+ /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/std_function.h \
+ /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/binders.h \
+ /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/funcwrap.h \
+ /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/mofunc_impl.h \
+ /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/cpyfunc_impl.h \
+ /opt/homebrew/Cellar/gcc/16.1.0/include/c++/16/bits/funcref_impl.h
